@@ -1,12 +1,150 @@
+$noteWidth: 16em;
+
 body, html {
     font-family: "Roboto", sans-serif;
-    background: linear-gradient(to bottom, #87e0fd 0%,#53cbf1 40%,#05abe0 100%);
     height: 100%;
+    margin:0em;
 }
-.logo {
-    background-image: url('img/MYIMAGE.png');
-    width: 100px;
-    height: 100px;
+
+#main{
+    height:100%;
+    width:100%;
+}
+
+#searchBarContainer{
+    width: 65%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    input[type=button]{
+        font-weight: 700;
+        font-size: 1.1em;
+        letter-spacing: 0.1em;
+        width: 6em;
+        height: 2.5em;
+        color: none;
+        outline:transparent;
+        border: solid black 0.25em;
+        border-radius: 0.3em;
+        cursor: pointer;
+        box-sizing: border-box;
+        padding:0em;
+        margin:0.05em;
+        border: solid black 0.25em;
+    }
+
+    input[type=button]:hover{
+        margin:0em;
+        width: 6.1em;
+        height: 2.6em;
+        border: solid black 0.28em;
+        border-radius: 0.35em;
+
+    }    
+
+    input[type=text]{
+        width:0;
+        flex-grow: 1;
+        border-radius: 0.3em;
+        outline: transparent;
+        margin-right:1.5em;
+        font-size: 1.4em;
+        cursor: text;
+    }
+}
+
+.note{
+    background-color: wheat;
+    box-sizing: border-box;
+    padding:0.6em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: $noteWidth;
+    box-shadow: 0.3em 0.3em 0.3em rgba(0, 0, 0, .2);
+    position: absolute;
+    min-height: 12em;
+
+
+    header{
+        display: flex;
+        width:100%;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    
+        h1{
+            margin:0em;
+            padding:0em;
+            font-size: 1.8em;
+            width: calc(100% - 1em);
+            word-wrap: break-word;
+            white-space:pre-wrap;
+        }
+    }
+
+    .noteText{
+        width:100%;
+        font-size: 1.1em;
+        padding: 3px 0;
+        object-fit: contain;
+        margin: 1.5em 0em;
+        p{
+            margin: 0em;
+        }
+
+    }
+
+    footer{
+        width: 3em;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        margin:auto 0 0 auto;
+    }
+
+    input[type=image]{
+        width: 1.5em;
+        height:1.5em;
+        outline:transparent;
+    }
+}
+
+.textArea{
+    width:100%;
+    font-size: 1.1em;
+    resize: none;
+    margin:1.5em 0em;
+    font-family: inherit;
+    outline:transparent;
+}
+
+.dragButton{
+    width: 1.5em;
+    height:1.5em;
+    background-image: url(./img/move.png);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
+    cursor: pointer;
+    align-self: flex-start;
+}
+
+#notesContainer{
+    width:100%;
+    height: 100%;
+    background-color: bisque;
+    position:relative;
+}
+
+#mainBoard{
+    width: 100%;
+    flex-grow: 1;
+}
+
+.markdownImg{
+    width:100%;
 }
