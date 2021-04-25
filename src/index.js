@@ -1,84 +1,75 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './style.scss';
-import { Map } from 'immutable';
-import SearchBar from './components/searchBar';
-import Note from './components/note';
-import * as firebasedb from './services/datastore';
+import {
+  BrowserRouter as Router, Route, Switch,
+} from 'react-router-dom';
+import NotePage from './components/notePage';
+import HomePage from './components/homePage';
+import {
+  auth, provider, fetchBoardList,
+} from './services/datastore';
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
       // eslint-disable-next-line react/no-unused-state
-      notes: Map(),
-      searchterm: '',
+      user: null,
+      boards: null,
     };
+    this.logout = this.logout.bind(this);
   }
 
   componentDidMount() {
-    firebasedb.fetchNotes((notes) => {
-      this.setState({ notes: Map(notes) });
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        const { photoURL, displayName, uid } = user;
+        this.setState({ user: { photoURL, displayName, uid } });
+        fetchBoardList(user.uid, (boards) => {
+          this.setState({ boards });
+        });
+      }
     });
   }
 
-  getNotes() {
-    return this.state.notes.entrySeq().map(([key, value]) => (
-      <Note
-        onUpdate={(newProp) => this.updateNote(key, newProp)}
-        onDelete={() => firebasedb.deleteNote(key)}
-        note={value}
-      />
-    ));
-  }
-
-  onInputChange = (event) => {
-    // this.props.onSearchChange(event.target.value);
-    this.setState({ searchterm: event.target.value });
-    console.log(this.state.searchterm);
-  }
-
-  addNote() {
-    if (this.state.searchterm === '') {
-      return;
+  getRoutes() {
+    if (this.state.boards != null) {
+      return Object.entries(this.state.boards).map(([key]) => (
+        <Route key={key} path={`/${key}`}>
+          <NotePage id={key} user={this.state.user} />
+        </Route>
+      ));
     }
-    const note = {
-      title: this.state.searchterm,
-      text: '',
-      x: Math.floor(Math.random() * 300),
-      y: Math.floor(Math.random() * 300),
-      width: 40,
-      height: 200,
-      zIndex: 0,
-    };
-    firebasedb.addNote(note);
-    // const id = this.state.count;
-    // this.setState((prevState) => ({
-    //   notes: prevState.notes.set(id, note),
-    //   count: prevState.count + 1,
-    // }));
+    return null;
   }
 
-  updateNote(id, newNoteProperties) {
-    // this.setState((prevState) => ({
-    //   notes: prevState.notes.update(id, (prevNote) => ({ ...prevNote, ...newNoteProperties })),
-    // }));
-    const updatedNote = { ...this.state.notes.get(id), ...newNoteProperties };
-    firebasedb.updateNote(id, updatedNote);
+  logout() {
+    auth.signOut().then(() => {
+      this.setState({
+        user: null,
+        boards: null,
+      });
+    });
   }
 
   render() {
     return (
-      <div id="mainBoard">
-        <SearchBar
-          onClick={() => this.addNote()}
-          onInputChange={(e) => this.onInputChange(e)}
-          searchterm={this.state.searchterm}
-        />
-        <div id="notesContainer">
-          {this.getNotes()}
+      <Router>
+        <div id="mainBoard">
+          <Switch>
+            <Route exact path="/">
+              <HomePage user={this.state.user}
+                login={() => auth.signInWithPopup(provider)}
+                logout={this.logout}
+                boards={this.state.boards}
+              />
+            </Route>
+            {this.getRoutes()}
+          </Switch>
         </div>
-      </div>
+      </Router>
+
     );
   }
 }
