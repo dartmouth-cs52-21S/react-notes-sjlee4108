@@ -39,7 +39,7 @@ class NotePage extends React.Component {
 
   onInputChange = (event) => {
     // this.props.onSearchChange(event.target.value);
-    if (event.target.value.length <= 25) {
+    if (event.target.value.length <= 20) {
       this.setState({ searchterm: event.target.value });
     }
   }
@@ -60,11 +60,7 @@ class NotePage extends React.Component {
     };
     firebasedb.updateCount(this.props.id, this.state.count + 1);
     firebasedb.addNote(this.props.id, note);
-    // const id = this.state.count;
-    // this.setState((prevState) => ({
-    //   notes: prevState.notes.set(id, note),
-    //   count: prevState.count + 1,
-    // }));
+    this.setState({ searchterm: '' });
   }
 
   updateNote(id, newNoteProperties) {

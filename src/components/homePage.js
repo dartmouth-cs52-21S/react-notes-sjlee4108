@@ -56,9 +56,10 @@ const HomePage = (props) => {
           ? <input type="button" id="googleButton" value="Google Sign In" onClick={props.login} />
           : (
             <div id="profile">
+              <input type="button" id="logout" value="SIGN OUT" onClick={props.logout} />
               <div id="nameSection">
-                <h1>{props.user.displayName}</h1>
                 <img src={props.user.photoURL} alt="" />
+                <h1>{props.user.displayName}</h1>
               </div>
               <input type="text"
                 onChange={onChangeTextbox}
