@@ -18,7 +18,9 @@
 1. **Authentication:** I used Firebase Auth with Google Authentication. So, for users to use our platform, they would need to log in using their google account. User will have access to the board once they log-in. 
 2. **Multiple Boards:** Once a user log in, they have two options: create a new board or use existing one. To use a board created by other users, a user would need the key of a board, which is shown in the web url. (https://compassionate-fermi-1eecdd.netlify.app/**[copy this key]**). The textbox for key and title also shows an error message if a title is too long, a title/key is empty, and a key is invalid.
 3. **Z-index:** I created a variable in Firebase that keeps track of the max z-index. Whenever user drags an item, it checks if the z-index of the dragged item has the highest z-index. If not, it updates the item to the (max z-index + 1) and updates max z-index in Firebase.
-4. **User Editmode**: Whenever a user is editing or dragging a post, the user's google profile pic is shown at the bottom of the note. While the note is on edit mode, other users cannot drag, edit or delete the note. The only slight problem with this editmode is that the note stays on editmode if a user goes back to previous page, which can be solved by refreshing the page.  
+4. **User Editmode**: Whenever a user is editing or dragging a post, the user's google profile pic is shown at the bottom of the note. While the note is on edit mode, other users cannot drag, edit or delete the note. The only slight problem with this editmode is that the note stays on editmode if a user goes back to previous page, which can be solved by refreshing the page. 
+
+**update: refresh did not work on netlify. It did work on localhost. 
 
 ## Screenshots
 
