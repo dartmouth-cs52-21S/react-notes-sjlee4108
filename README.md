@@ -20,8 +20,6 @@
 3. **Z-index:** I created a variable in Firebase that keeps track of the max z-index. Whenever user drags an item, it checks if the z-index of the dragged item has the highest z-index. If not, it updates the item to the (max z-index + 1) and updates max z-index in Firebase.
 4. **User Editmode**: Whenever a user is editing or dragging a post, the user's google profile pic is shown at the bottom of the note. While the note is on edit mode, other users cannot drag, edit or delete the note. The only slight problem with this editmode is that the note stays on editmode if a user goes back to previous page, which can be solved by refreshing the page. 
 
-**update: refresh did not work on netlify. It did work on localhost. 
-
 ## Screenshots
 
 ![auth screen](/screenshots/auth.png)
