@@ -14,6 +14,10 @@ class Note extends Component {
     this.state = { editMode: false };
   }
 
+  componentDidMount() {
+    window.addEventListener('beforeunload', this.onUnload);
+  }
+
   onContextChange = (event) => {
     const p = { text: event.target.value };
     this.props.onUpdate(p);
@@ -48,6 +52,13 @@ class Note extends Component {
       this.props.onUpdate(p);
     }
   }
+
+  onUnload = (e) => {
+    e.preventDefault();
+    if (this.state.editMode) {
+      updateEditor(this.props.boardId, this.props.id, null);
+    }
+  };
 
   handleEdit = () => {
     if (this.state.editMode) {
