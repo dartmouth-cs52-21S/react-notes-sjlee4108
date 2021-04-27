@@ -6,6 +6,8 @@ import trashImg from '../img/garbage.png';
 
 import { addExistBoard, addNewBoard, removeBoard } from '../services/datastore';
 
+// creates a list of boards that is clickable
+// leads to that specific board
 const getBoardList = (boards, userId) => Object.entries(boards).map(([key, value]) => (
   <li key={key}>
     <Link key={key} to={`/${key}`}>{value.title}</Link>
@@ -15,6 +17,7 @@ const getBoardList = (boards, userId) => Object.entries(boards).map(([key, value
 ));
 
 const HomePage = (props) => {
+  // front page of the web
   const [textBox, setTextBox] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -28,6 +31,7 @@ const HomePage = (props) => {
   };
 
   const onClickNewBoard = () => {
+    // handle click for creating new board button
     if (textBox.length !== 0) {
       addNewBoard(props.user.uid, textBox);
       setTextBox('');
@@ -37,6 +41,7 @@ const HomePage = (props) => {
   };
 
   const onClickExistBoard = () => {
+    // handle click for adding existing board button
     if (textBox.length !== 0) {
       addExistBoard(props.user.uid, textBox, () => setErrorMsg('Invalid key'));
       setTextBox('');

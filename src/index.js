@@ -14,13 +14,13 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      // eslint-disable-next-line react/no-unused-state
       user: null,
       boards: null,
     };
     this.logout = this.logout.bind(this);
   }
 
+  // update user info
   componentDidMount() {
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -33,6 +33,7 @@ class App extends React.Component {
     });
   }
 
+  // creates a list of route component of a user's boards if user is logged in.
   getRoutes() {
     if (this.state.boards != null) {
       return Object.entries(this.state.boards).map(([key]) => (
@@ -44,6 +45,7 @@ class App extends React.Component {
     return null;
   }
 
+  // sign out
   logout() {
     auth.signOut().then(() => {
       this.setState({

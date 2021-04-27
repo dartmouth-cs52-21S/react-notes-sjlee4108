@@ -9,21 +9,26 @@ import checkImg from '../img/checked.png';
 import { updateCount, updateEditor } from '../services/datastore';
 
 class Note extends Component {
+  // post it notes used in boards.
   constructor(props) {
     super(props);
     this.state = { editMode: false };
   }
 
   componentDidMount() {
+    // used so that editor can be updated upon refresh.
+    // whenever user leaves while editing.
     window.addEventListener('beforeunload', this.onUnload);
   }
 
   onContextChange = (event) => {
+    // onChange for contents textarea
     const p = { text: event.target.value };
     this.props.onUpdate(p);
   }
 
   onTitleChange = (event) => {
+    // onChange for title input
     if (event.target.value.length <= 25) {
       const p = { title: event.target.value };
       this.props.onUpdate(p);
@@ -31,18 +36,21 @@ class Note extends Component {
   }
 
   handleDragStart =() => {
+    // called on start of note drag, updates editor info in firebase.
     if (!this.state.editMode) {
       updateEditor(this.props.boardId, this.props.id, this.props.user);
     }
   }
 
   handleDragStop =() => {
+    // called at the end of note drag, updates editor info in firebase
     if (!this.state.editMode) {
       updateEditor(this.props.boardId, this.props.id, null);
     }
   }
 
   handleDrag = (e, data) => {
+    // handles positional and z-index while dragging.
     if (this.props.note.zIndex < this.props.count - 1) {
       const p = { x: data.x, y: data.y, zIndex: this.props.count };
       this.props.onUpdate(p);
@@ -54,12 +62,14 @@ class Note extends Component {
   }
 
   onUnload = (e) => {
+    // set editor to null
     e.preventDefault();
     if (this.state.editMode) {
       updateEditor(this.props.boardId, this.props.id, null);
     }
   };
 
+  // handle onClick for edit button
   handleEdit = () => {
     if (this.state.editMode) {
       if (this.props.note.text === '') {
@@ -77,6 +87,7 @@ class Note extends Component {
     }));
   }
 
+  // handle onclick for delete button
   handleDelete = () => {
     if (this.props.note.editor != null && this.state.editMode === false) {
       return;
@@ -85,6 +96,8 @@ class Note extends Component {
   }
 
   render() {
+    // constants used to reformat md images that are too large
+    // to fit into my fixed note size
     const MyImage = (props) => (
       <img
         className="markdownImg"

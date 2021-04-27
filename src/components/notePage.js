@@ -5,10 +5,11 @@ import Note from './note';
 import * as firebasedb from '../services/datastore';
 
 class NotePage extends React.Component {
+  // Page for note boards
+  // contains notes created by users
   constructor() {
     super();
     this.state = {
-      // eslint-disable-next-line react/no-unused-state
       notes: Map(),
       searchterm: '',
       title: '',
@@ -17,12 +18,14 @@ class NotePage extends React.Component {
   }
 
   componentDidMount() {
+    // gets a list of notes and variables to the local state
     firebasedb.fetchBoard(this.props.id, (board) => {
       this.setState({ notes: Map(board.notes), title: board.title, count: board.count });
     });
   }
 
   getNotes() {
+    // returns a list of notes in note component
     return this.state.notes.entrySeq().map(([key, value]) => (
       <Note
         key={key}
@@ -38,16 +41,20 @@ class NotePage extends React.Component {
   }
 
   onInputChange = (event) => {
-    // this.props.onSearchChange(event.target.value);
+    // onChange function for title bar for creating new note
     if (event.target.value.length <= 20) {
       this.setState({ searchterm: event.target.value });
     }
   }
 
   addNote() {
+    // method for creating a new note when clicking submit button
     if (this.state.searchterm === '') {
       return;
     }
+
+    // note object structure used also in Firebase
+    // editor = null when no one is editing. Has user info(name, picture, id) if someone is editing.
     const note = {
       title: this.state.searchterm,
       text: '',
@@ -64,9 +71,7 @@ class NotePage extends React.Component {
   }
 
   updateNote(id, newNoteProperties) {
-    // this.setState((prevState) => ({
-    //   notes: prevState.notes.update(id, (prevNote) => ({ ...prevNote, ...newNoteProperties })),
-    // }));
+    // update notes based on changes such as positions, z-index, and contents
     const updatedNote = { ...this.state.notes.get(id), ...newNoteProperties };
     firebasedb.updateNote(this.props.id, id, updatedNote);
   }
