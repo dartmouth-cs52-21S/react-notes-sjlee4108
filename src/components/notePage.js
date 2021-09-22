@@ -26,13 +26,13 @@ class NotePage extends React.Component {
 
   getNotes() {
     // returns a list of notes in note component
-    return this.state.notes.entrySeq().map(([key, value]) => (
+    return this.state.notes.entrySeq().map((key) => (
       <Note
-        key={key}
-        id={key}
-        onUpdate={(newProp) => this.updateNote(key, newProp)}
-        onDelete={() => firebasedb.deleteNote(this.props.id, key)}
-        note={value}
+        key={key[0]}
+        id={key[0]}
+        onUpdate={(newProp) => this.updateNote(key[0], newProp)}
+        onDelete={() => firebasedb.deleteNote(this.props.id, key[0])}
+        note={key[1]}
         boardId={this.props.id}
         count={this.state.count}
         user={this.props.user}

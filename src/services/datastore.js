@@ -1,15 +1,14 @@
 import firebase from 'firebase';
 
-const config = {
-  apiKey: 'AIzaSyD_BKzLgBMISr2Uh6_1fXBeZQh0GGo3ecs',
-  authDomain: 'react-notes-b2917.firebaseapp.com',
-  databaseURL: 'https://react-notes-b2917-default-rtdb.firebaseio.com',
-  projectId: 'react-notes-b2917',
-  storageBucket: 'react-notes-b2917.appspot.com',
-  messagingSenderId: '424723283847',
-  appId: '1:424723283847:web:b99a5a7edef1f860d15d22',
+const firebaseConfig = {
+  apiKey: 'AIzaSyB1oNGw7jKQf_Sj_oHN2shMEmQTIbhsudM',
+  authDomain: 'react-notes-bef24.firebaseapp.com',
+  projectId: 'react-notes-bef24',
+  storageBucket: 'react-notes-bef24.appspot.com',
+  messagingSenderId: '195079950641',
+  appId: '1:195079950641:web:226408947a50a3c4556010',
 };
-firebase.initializeApp(config);
+firebase.initializeApp(firebaseConfig);
 
 // Get a reference to the database service
 const database = firebase.database();
